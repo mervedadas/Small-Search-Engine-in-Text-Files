@@ -1,5 +1,5 @@
 #pragma once
-#include<iostream>
+ 
 #include<fstream>
 #include<string>
 #include"Node.h"
@@ -70,12 +70,12 @@ public:
 			//cout << data << "  " << textname<<endl;
 			flag = 1;
 		}
-		if (!isEmpty()) { // sorun bu kısımda çünkü daha önce listede var olan kelimeyi tekrar yazıyor. Ama bu hatayı her kelime için yapmıyor.
-			while (walk != NULL) {
-				if (walk->word == data) {  //eklemek istediğim kelime listenin içinde varsa bulunduğu dosyanın adını indexlerin olduğu listeye ekleyecek.
+		if (!isEmpty()) { 
+			while (walk != NULL) {  
+				if (walk->word == data) {   // eğer yeni gelen kelime daha önce listeye girmişse sadece textname güncellenecek
 					flag = 1;
 					wlk = walk->h_index;
-					if (wlk->id == textname) {  // yanlış burada mı çözemedim ?! burada bu koşul doğruysa walk ı bir sonrakine artırıp devam etsin istiyorum
+					if (wlk->id == textname) { 
 						return;
 					}
 					else {  //kelime farklı bir textten geldiyse index nodu eklesin
@@ -88,7 +88,7 @@ public:
 				}
 				walk = walk->nxt;
 			}
-			if (flag == 0) {  // bu demek oluyor ki aradığımız kelime listede daha önce var olmamış
+			if (flag == 0) {  // bu demek oluyor ki aradığımız kelime listede daha önce var olmamış. Yeni node ekle
 				Node *newNode = new Node(data);
 				newNode->nxt = head;
 				head = newNode;
@@ -99,7 +99,7 @@ public:
 			}
 		}
 	}
-	friend void specialChar(string &w) {
+	friend void specialChar(string &w) { //özel karakterleri temizliyor.
 		string a;
 		int size = w.length();
 		int k = 0;
@@ -113,7 +113,7 @@ public:
 		}
 		w = a;
 	}
-	friend Doc occurStopList(const string name) {
+	friend Doc occurStopList(const string name) { //stoplist'in içinde olan kelimeleri list yapıyor
 		string word1, word;
 		int k = 0;
 		Doc stop;
@@ -141,7 +141,7 @@ public:
 		f.close();
 		return stop;
 	}
-	bool is_inStopList(Doc stop, string data) {
+	bool is_inStopList(Doc stop, string data) {  //stoplist içinde mi kontrol
 		Node *stop_walk = stop.head;
 		if (!stop.isEmpty()) {
 			while (stop_walk != NULL) {
